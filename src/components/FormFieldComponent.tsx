@@ -11,7 +11,7 @@ interface FormFieldComponentProps {
 export function FormFieldComponent ({ name,arrayIndex, children }: FormFieldComponentProps) {
     let controlProps;
     if (typeof arrayIndex === "number") {
-        const { formarray, handleItemChange } = useFormArray();
+        const { formarray,handleItemChange } = useFormArray();
         const control = formarray.controls[arrayIndex];
         interface ControlProps {
             value: any;

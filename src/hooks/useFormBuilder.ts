@@ -10,14 +10,16 @@ export function useFormBuilder() {
         return new FormControl({ value, validator });
     }
 
-    function group(controls: Record<string, FormControlBase | string>): FormGroup {
+    function group(controls: Record<string, FormControlBase | any>): FormGroup {
         // If a value is a string, wrap it in a FormControl
         const normalized: Record<string, FormControlBase> = {};
         for (const key in controls) {
             const val = controls[key];
-            normalized[key] = typeof val === "string"
-                ? control(val)
-                : val as FormControlBase;
+            if (val instanceof FormControlBase) {
+                normalized[key] = val as FormControlBase
+            }else{
+                normalized[key] = control(val)
+            }
         }
         return new FormGroup(normalized);
     }

@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState, type ReactNode } from 'react';
+import './App.css';
 import { useFormBuilder } from '../../../src/hooks/useFormBuilder';
 import { FormGroupComponent, useFormGroup } from '../../../src/contexts/FormGroupComponent';
 import { FormArrayComponent, useFormArray } from '../../../src/contexts/FormArrayComponent';
-import { useFormControl } from '../../../src/hooks/useFormControl';
 import { FormGroup } from '../../../src/controls/FormGroup';
 import { FormArray } from '../../../src/controls/FormArray';
 import { FormFieldComponent } from '../../../src/components/FormFieldComponent';
 import { FormErrorComponent } from '../../../src/components/FormErrorComponent';
+import { FormArrayAddComponent } from '../../../src/components/FormArrayAddComponent';
 function App() {
   const { group, control, array } = useFormBuilder();
   // Custom validator for age > 5
@@ -17,7 +18,7 @@ function App() {
   };
 
   // Build the form structure
-  const [form] = useState(() =>
+  const form = useMemo(() =>
     group({
       userInfo: group({
         name: control(""),
@@ -26,11 +27,14 @@ function App() {
       email: control(""),
       phoneNumbers: array(["", ""])
     })
-  );
+  ,[]);
 
   // Get phoneNumbers array
   const phoneNumbersArray = form.get("phoneNumbers") as FormArray;
-
+  // function handleAddNewItem(newForm: FormGroup) {
+  //   phoneNumbersArray.addItem("");
+  //   setForm(newForm);
+  // }
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     console.log(form.buildObject());
@@ -74,12 +78,15 @@ function App() {
                   <input type="text" />
                 </FormFieldComponent>
               ))}
-              <button type="button" onClick={() => useFormArray().addItem("")}>Add Phone (This Dont Work yet)</button>
+              <FormArrayAddComponent base="">
+                <button type="button">Add Phone (This Dont Work yet)</button>
+              </FormArrayAddComponent>
             </div>
           </FormArrayComponent>
           <button type="submit">Submit</button>
         </FormGroupComponent>
       </form>
+              {/* <button onClick={()=>{setForm(form)}}>test</button> */}
     </div>
   );
 }

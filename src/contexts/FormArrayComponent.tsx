@@ -6,7 +6,7 @@ import { FormControl } from "../controls/FormControl";
 interface FormArrayContextValue {
     formarray: FormArray;
     handleItemChange: (index: number, value: any) => void;
-    addItem: (value: any) => void;
+    addItem: (value: any, validator: FormValidator | undefined) => void;
     removeItem: (index: number) => void;
 }
 const FormArrayContext = createContext<FormArrayContextValue | undefined>(undefined);
@@ -27,8 +27,8 @@ export function FormArrayComponent({ formarray, children }: Props): ReactElement
         }
     };
 
-    const addItem = (value: any) => {
-        formarray.controls.push(new FormControl(value));
+    const addItem = (value: any, validator: FormValidator | undefined) => {
+        formarray.controls.push(new FormControl({value:value, validator:validator}));
         setVersion(v => v + 1);
     };
 
