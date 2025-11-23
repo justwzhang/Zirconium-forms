@@ -79,7 +79,7 @@ function App() {
                   <input  />
                 </FormFieldComponent>
               ))}
-              <FormArrayAddComponent base="">
+              <FormArrayAddComponent base={group({value: control("")})}>
                 <button type="button">Add Phone (This Dont Work yet)</button>
               </FormArrayAddComponent>
             </div>
