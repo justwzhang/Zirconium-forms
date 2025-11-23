@@ -5,6 +5,7 @@ import { FormControl } from "../controls/FormControl";
 
 interface FormArrayContextValue {
     formarray: FormArray;
+    
     handleItemChange: (index: number, value: any) => void;
     addItem: (value: any, validator: FormValidator | undefined) => void;
     removeItem: (index: number) => void;
@@ -14,27 +15,38 @@ const FormArrayContext = createContext<FormArrayContextValue | undefined>(undefi
 interface Props {
     formarray: FormArray;
     children: ReactNode | (()=>ReactNode);
+    formUpdate?: () => void;
 }
 
-export function FormArrayComponent({ formarray, children }: Props): ReactElement {
-    const [, setVersion] = useState(0);
+export function FormArrayComponent({ formarray, children, formUpdate }: Props): ReactElement {
 
+    const [, setVersion] = useState(0);
+    
     const handleItemChange = (index: number, value: any) => {
         const control = formarray.controls[index];
         if (control) {
             (control as FormControl).patchValue(value);
-            setVersion(v => v + 1);
+            setVersion(v => v + 1); // redraw this section
         }
     };
 
     const addItem = (value: any, validator: FormValidator | undefined) => {
         formarray.controls.push(new FormControl({value:value, validator:validator}));
-        setVersion(v => v + 1);
+        if(!formUpdate){
+            console.error("FormArrayComponent does not have formUpdate function passed in props.");
+        }else{
+            formUpdate();
+        }
+        
     };
 
     const removeItem = (index: number) => {
         formarray.controls.splice(index, 1);
-        setVersion(v => v + 1);
+        if(!formUpdate){
+            console.error("FormArrayComponent does not have formUpdate function passed in props.");
+        }else{
+            formUpdate();
+        }
     };
 
     return (

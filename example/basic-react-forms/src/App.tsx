@@ -3,6 +3,7 @@ import './App.css';
 import { useFormBuilder } from '../../../src/hooks/useFormBuilder';
 import { FormGroupComponent, useFormGroup } from '../../../src/contexts/FormGroupComponent';
 import { FormArrayComponent, useFormArray } from '../../../src/contexts/FormArrayComponent';
+import { useForm } from '../../../src/hooks/useForm';
 import { FormGroup } from '../../../src/controls/FormGroup';
 import { FormArray } from '../../../src/controls/FormArray';
 import { FormFieldComponent } from '../../../src/components/FormFieldComponent';
@@ -16,9 +17,9 @@ function App() {
     func: (val: any) => Number(val) > 5,
     errorMsg: "Age must be greater than 5."
   };
-
+  console.log("App Rendered");
   // Build the form structure
-  const form = useMemo(() =>
+  const [form, updateForm] = useForm(
     group({
       userInfo: group({
         name: control(""),
@@ -27,7 +28,7 @@ function App() {
       email: control(""),
       phoneNumbers: array(["", ""])
     })
-  ,[]);
+  );
 
   // Get phoneNumbers array
   const phoneNumbersArray = form.get("phoneNumbers") as FormArray;
@@ -59,7 +60,7 @@ function App() {
                       <input type="number" />
                     </FormFieldComponent>
                     {/* <FormErrorComponent name="age" noText onError={()=>{console.log("error")}}/> */}
-                    <FormErrorComponent name="age" onError={()=>{console.log("error")}}/>
+                    <FormErrorComponent name="age"/>
                     {/* <FormErrorComponent name="age" errorComponent={<div>This is an error</div>} onError={()=>{console.log("error")}}/> */}
                   </label>
                 </div>
@@ -70,12 +71,12 @@ function App() {
               <input type="text" />
             </FormFieldComponent>
           </label>
-          <FormArrayComponent formarray={phoneNumbersArray}>
+          <FormArrayComponent formarray={phoneNumbersArray} formUpdate={updateForm}>
             <div>
               <label>Phone Numbers:</label>
               {phoneNumbersArray.controls.map((ctrl, i) => (
                 <FormFieldComponent key={i} arrayIndex={i}>
-                  <input type="text" />
+                  <input  />
                 </FormFieldComponent>
               ))}
               <FormArrayAddComponent base="">
