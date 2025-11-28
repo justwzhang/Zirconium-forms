@@ -26,12 +26,21 @@ function App() {
         age: control(1, ageValidator)
       }),
       email: control(""),
-      phoneNumbers: array(["", ""])
+      phoneNumbers: array([group({value:"test"}), group({value:"a"})])
     })
   );
 
   // Get phoneNumbers array
   const phoneNumbersArray = form.get("phoneNumbers") as FormArray;
+
+  function RemoveItemButton({ index }: { index: number }) {
+    const { removeItem } = useFormArray();
+    return (
+      <button type="button" onClick={() => removeItem(index)}>
+        Remove
+      </button>
+    );
+  }
   // function handleAddNewItem(newForm: FormGroup) {
   //   phoneNumbersArray.addItem("");
   //   setForm(newForm);
@@ -74,12 +83,18 @@ function App() {
           <FormArrayComponent formarray={phoneNumbersArray} formUpdate={updateForm}>
             <div>
               <label>Phone Numbers:</label>
-              {phoneNumbersArray.controls.map((ctrl, i) => (
-                <FormFieldComponent key={i} arrayIndex={i}>
-                  <input  />
-                </FormFieldComponent>
+                {phoneNumbersArray.controls.map((ctrl, i) => (
+                // <FormFieldComponent key={i} arrayIndex={i}>
+                //   <input  />
+                // </FormFieldComponent>
+                 <FormGroupComponent key={i} formgroup={ctrl as FormGroup}>
+                    <FormFieldComponent name="value" >
+                      <input type="text"/>
+                    </FormFieldComponent>
+                    <RemoveItemButton index={i} />
+                 </FormGroupComponent>
               ))}
-              <FormArrayAddComponent base={group({value: control("")})}>
+              <FormArrayAddComponent base={group({value: control("base")})}>
                 <button type="button">Add Phone (This Dont Work yet)</button>
               </FormArrayAddComponent>
             </div>
