@@ -9,6 +9,7 @@ import { FormArray } from '../../../src/controls/FormArray';
 import { FormFieldComponent } from '../../../src/components/FormFieldComponent';
 import { FormErrorComponent } from '../../../src/components/FormErrorComponent';
 import { FormArrayAddComponent } from '../../../src/components/FormArrayAddComponent';
+import { FormArrayDeleteComponent } from '../../../src/components/FormArrayDeleteComponent';
 function App() {
   const { group, control, array } = useFormBuilder();
   // Custom validator for age > 5
@@ -91,7 +92,9 @@ function App() {
                     <FormFieldComponent name="value" >
                       <input type="text"/>
                     </FormFieldComponent>
-                    <RemoveItemButton index={i} />
+                    <FormArrayDeleteComponent index={i}>
+                      <button type="button">Remove</button>
+                    </FormArrayDeleteComponent>
                  </FormGroupComponent>
               ))}
               <FormArrayAddComponent base={group({value: control("base")})}>
