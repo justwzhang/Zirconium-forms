@@ -2,11 +2,10 @@ import { FormControl } from "../controls/FormControl";
 import { FormGroup } from "../controls/FormGroup";
 import { FormArray } from "../controls/FormArray";
 import { FormControlBase } from "../controls/FormControlBase";
-
-type Validator = FormValidator; 
+import { FormValidator } from "../types/FormTypes";
 
 export function useFormBuilder() {
-    function control(value: any, validator?: Validator): FormControl {
+    function control(value: any, validator?: FormValidator): FormControl {
         return new FormControl({ value, validator });
     }
 

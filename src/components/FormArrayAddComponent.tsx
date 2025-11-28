@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormArray } from "../contexts/FormArrayComponent";
+import { FormValidator } from "../types";
 
 interface FormArrayAddComponentProps {
     children: React.ReactElement;

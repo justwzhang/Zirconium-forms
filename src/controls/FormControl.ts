@@ -1,3 +1,4 @@
+import { FormControlProps, FormValidator, FormValidatorOut } from "../types";
 import { FormControlBase } from "./FormControlBase";
 export class FormControl extends FormControlBase{
     private _value: any;
