@@ -1,10 +1,5 @@
-export const form = {
-  control: {
-    bruh: {
-      value: 10
-    },
-    dummy: {
-      value: 'hello'
-    }
-  }
-}
+export * from "./components/";
+export * from "./hooks/";
+export * from "./controls/";
+export * from "./contexts/"
+export * from "./types/";

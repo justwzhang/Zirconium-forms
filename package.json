@@ -2,8 +2,16 @@
   "name": "@radioactive/forms",
   "version": "0.0.1",
   "description": "Powerful forms for React",
-  "main": "index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "dev": "concurrently \"npm run dev:example\" \"npm run dev:library\"",
     "build:watch": "tsc -p tsconfig.json -w",
     "example:dev": "cd example/basic-react-forms/ && npm run dev",
@@ -26,7 +34,7 @@
   "homepage": "https://github.com/Identityofsine/radioactive-forms#readme",
   "devDependencies": {
     "concurrently": "^9.2.1",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@types/react": "^19.1.15",

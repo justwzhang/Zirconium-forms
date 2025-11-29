@@ -1,15 +1,15 @@
-interface FormValidator {
+export interface FormValidator {
     required?: boolean;
     func?: (value: any) => boolean;
     errorMsg?: string;
 }
 
-interface FormValidatorOut{
+export interface FormValidatorOut{
     valid: boolean;
     errors: string;
 }
 
-interface FormControlProps{
+export interface FormControlProps{
     value: any;
     validator?: FormValidator | undefined;
 }

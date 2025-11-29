@@ -9,6 +9,7 @@ import { FormArray } from '../../../src/controls/FormArray';
 import { FormFieldComponent } from '../../../src/components/FormFieldComponent';
 import { FormErrorComponent } from '../../../src/components/FormErrorComponent';
 import { FormArrayAddComponent } from '../../../src/components/FormArrayAddComponent';
+import { FormArrayDeleteComponent } from '../../../src/components/FormArrayDeleteComponent';
 function App() {
   const { group, control, array } = useFormBuilder();
   // Custom validator for age > 5
@@ -26,12 +27,21 @@ function App() {
         age: control(1, ageValidator)
       }),
       email: control(""),
-      phoneNumbers: array(["", ""])
+      phoneNumbers: array([group({value:"test"}), group({value:"a"})])
     })
   );
 
   // Get phoneNumbers array
   const phoneNumbersArray = form.get("phoneNumbers") as FormArray;
+
+  function RemoveItemButton({ index }: { index: number }) {
+    const { removeItem } = useFormArray();
+    return (
+      <button type="button" onClick={() => removeItem(index)}>
+        Remove
+      </button>
+    );
+  }
   // function handleAddNewItem(newForm: FormGroup) {
   //   phoneNumbersArray.addItem("");
   //   setForm(newForm);
@@ -74,12 +84,20 @@ function App() {
           <FormArrayComponent formarray={phoneNumbersArray} formUpdate={updateForm}>
             <div>
               <label>Phone Numbers:</label>
-              {phoneNumbersArray.controls.map((ctrl, i) => (
-                <FormFieldComponent key={i} arrayIndex={i}>
-                  <input  />
-                </FormFieldComponent>
+                {phoneNumbersArray.controls.map((ctrl, i) => (
+                // <FormFieldComponent key={i} arrayIndex={i}>
+                //   <input  />
+                // </FormFieldComponent>
+                 <FormGroupComponent key={i} formgroup={ctrl as FormGroup}>
+                    <FormFieldComponent name="value" >
+                      <input type="text"/>
+                    </FormFieldComponent>
+                    <FormArrayDeleteComponent index={i}>
+                      <button type="button">Remove</button>
+                    </FormArrayDeleteComponent>
+                 </FormGroupComponent>
               ))}
-              <FormArrayAddComponent base={group({value: control("")})}>
+              <FormArrayAddComponent base={group({value: control("base")})}>
                 <button type="button">Add Phone (This Dont Work yet)</button>
               </FormArrayAddComponent>
             </div>
